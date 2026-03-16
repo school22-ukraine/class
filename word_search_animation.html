@@ -5,102 +5,111 @@
 <meta charset="UTF-8">
 <title>Знайди слова — Анімація</title>
 <style>
-body {font-family:Arial; display:flex; gap:40px; padding:20px}
-table {border-collapse:collapse}
-td {
-width:32px;height:32px;text-align:center;
-border:1px solid #999;font-size:18px;cursor:pointer;
-user-select:none;
-}
-td.selected {background:#ffd0d0}
-td.correct {background:#90ee90}
-#words li {color:red;font-weight:bold;margin:6px 0}
-#words li.found {color:green}
+body{font-family:Arial;display:flex;gap:40px;padding:20px}
+table{border-collapse:collapse}
+td{width:34px;height:34px;text-align:center;border:1px solid #999;
+font-size:18px;cursor:pointer;user-select:none}
+td.start{background:#ffd0d0}
+td.correct{background:#90ee90}
+#words li{color:red;font-weight:bold;margin:6px 0}
+#words li.found{color:green}
 </style>
 </head>
 <body>
 
 <div>
 <h2>Знайди слова</h2>
-<p>Виділи мишкою слово в таблиці</p>
-<table id="grid"><tr><td data-r="0" data-c="0">Д</td><td data-r="0" data-c="1">М</td><td data-r="0" data-c="2">Ц</td><td data-r="0" data-c="3">О</td><td data-r="0" data-c="4">Є</td><td data-r="0" data-c="5">С</td><td data-r="0" data-c="6">Д</td><td data-r="0" data-c="7">W</td><td data-r="0" data-c="8">О</td><td data-r="0" data-c="9">Ю</td><td data-r="0" data-c="10">Ч</td><td data-r="0" data-c="11">Я</td><td data-r="0" data-c="12">Л</td><td data-r="0" data-c="13">Ю</td></tr><tr><td data-r="1" data-c="0">Ж</td><td data-r="1" data-c="1">О</td><td data-r="1" data-c="2">Ж</td><td data-r="1" data-c="3">І</td><td data-r="1" data-c="4">П</td><td data-r="1" data-c="5">Т</td><td data-r="1" data-c="6">Н</td><td data-r="1" data-c="7">E</td><td data-r="1" data-c="8">Щ</td><td data-r="1" data-c="9">Ч</td><td data-r="1" data-c="10">З</td><td data-r="1" data-c="11">Є</td><td data-r="1" data-c="12">О</td><td data-r="1" data-c="13">Ю</td></tr><tr><td data-r="2" data-c="0">А</td><td data-r="2" data-c="1">Р</td><td data-r="2" data-c="2">Р</td><td data-r="2" data-c="3">Б</td><td data-r="2" data-c="4">Ф</td><td data-r="2" data-c="5">Й</td><td data-r="2" data-c="6">Ж</td><td data-r="2" data-c="7">B</td><td data-r="2" data-c="8">О</td><td data-r="2" data-c="9">У</td><td data-r="2" data-c="10">Д</td><td data-r="2" data-c="11">С</td><td data-r="2" data-c="12">Щ</td><td data-r="2" data-c="13">Ю</td></tr><tr><td data-r="3" data-c="0">З</td><td data-r="3" data-c="1">Ф</td><td data-r="3" data-c="2">Б</td><td data-r="3" data-c="3">С</td><td data-r="3" data-c="4">О</td><td data-r="3" data-c="5">Д</td><td data-r="3" data-c="6">Г</td><td data-r="3" data-c="7">P</td><td data-r="3" data-c="8">В</td><td data-r="3" data-c="9">Е</td><td data-r="3" data-c="10">К</td><td data-r="3" data-c="11">Т</td><td data-r="3" data-c="12">О</td><td data-r="3" data-c="13">Р</td></tr><tr><td data-r="4" data-c="0">У</td><td data-r="4" data-c="1">І</td><td data-r="4" data-c="2">У</td><td data-r="4" data-c="3">G</td><td data-r="4" data-c="4">I</td><td data-r="4" data-c="5">F</td><td data-r="4" data-c="6">В</td><td data-r="4" data-c="7">Ч</td><td data-r="4" data-c="8">Д</td><td data-r="4" data-c="9">У</td><td data-r="4" data-c="10">Ф</td><td data-r="4" data-c="11">Т</td><td data-r="4" data-c="12">Г</td><td data-r="4" data-c="13">Е</td></tr><tr><td data-r="5" data-c="0">О</td><td data-r="5" data-c="1">Н</td><td data-r="5" data-c="2">Ж</td><td data-r="5" data-c="3">Є</td><td data-r="5" data-c="4">П</td><td data-r="5" data-c="5">П</td><td data-r="5" data-c="6">П</td><td data-r="5" data-c="7">Г</td><td data-r="5" data-c="8">Щ</td><td data-r="5" data-c="9">Ф</td><td data-r="5" data-c="10">И</td><td data-r="5" data-c="11">Ю</td><td data-r="5" data-c="12">Р</td><td data-r="5" data-c="13">У</td></tr><tr><td data-r="6" data-c="0">Й</td><td data-r="6" data-c="1">Г</td><td data-r="6" data-c="2">І</td><td data-r="6" data-c="3">Я</td><td data-r="6" data-c="4">У</td><td data-r="6" data-c="5">Т</td><td data-r="6" data-c="6">Є</td><td data-r="6" data-c="7">Ф</td><td data-r="6" data-c="8">Г</td><td data-r="6" data-c="9">Т</td><td data-r="6" data-c="10">Р</td><td data-r="6" data-c="11">Я</td><td data-r="6" data-c="12">А</td><td data-r="6" data-c="13">Р</td></tr><tr><td data-r="7" data-c="0">Н</td><td data-r="7" data-c="1">Н</td><td data-r="7" data-c="2">Л</td><td data-r="7" data-c="3">Х</td><td data-r="7" data-c="4">Г</td><td data-r="7" data-c="5">Ж</td><td data-r="7" data-c="6">Д</td><td data-r="7" data-c="7">Х</td><td data-r="7" data-c="8">Є</td><td data-r="7" data-c="9">Д</td><td data-r="7" data-c="10">Ї</td><td data-r="7" data-c="11">Н</td><td data-r="7" data-c="12">С</td><td data-r="7" data-c="13">Ф</td></tr><tr><td data-r="8" data-c="0">Г</td><td data-r="8" data-c="1">М</td><td data-r="8" data-c="2">В</td><td data-r="8" data-c="3">А</td><td data-r="8" data-c="4">Н</td><td data-r="8" data-c="5">І</td><td data-r="8" data-c="6">М</td><td data-r="8" data-c="7">А</td><td data-r="8" data-c="8">Ц</td><td data-r="8" data-c="9">І</td><td data-r="8" data-c="10">Я</td><td data-r="8" data-c="11">З</td><td data-r="8" data-c="12">Т</td><td data-r="8" data-c="13">О</td></tr><tr><td data-r="9" data-c="0">Г</td><td data-r="9" data-c="1">Є</td><td data-r="9" data-c="2">Т</td><td data-r="9" data-c="3">І</td><td data-r="9" data-c="4">Н</td><td data-r="9" data-c="5">М</td><td data-r="9" data-c="6">Є</td><td data-r="9" data-c="7">У</td><td data-r="9" data-c="8">У</td><td data-r="9" data-c="9">Х</td><td data-r="9" data-c="10">В</td><td data-r="9" data-c="11">Є</td><td data-r="9" data-c="12">Р</td><td data-r="9" data-c="13">Р</td></tr><tr><td data-r="10" data-c="0">Й</td><td data-r="10" data-c="1">Н</td><td data-r="10" data-c="2">У</td><td data-r="10" data-c="3">Ф</td><td data-r="10" data-c="4">Г</td><td data-r="10" data-c="5">Ч</td><td data-r="10" data-c="6">Щ</td><td data-r="10" data-c="7">Ш</td><td data-r="10" data-c="8">К</td><td data-r="10" data-c="9">Б</td><td data-r="10" data-c="10">Є</td><td data-r="10" data-c="11">Й</td><td data-r="10" data-c="12">М</td><td data-r="10" data-c="13">М</td></tr><tr><td data-r="11" data-c="0">Ш</td><td data-r="11" data-c="1">О</td><td data-r="11" data-c="2">Ш</td><td data-r="11" data-c="3">Г</td><td data-r="11" data-c="4">Ю</td><td data-r="11" data-c="5">О</td><td data-r="11" data-c="6">Б</td><td data-r="11" data-c="7">Р</td><td data-r="11" data-c="8">А</td><td data-r="11" data-c="9">У</td><td data-r="11" data-c="10">З</td><td data-r="11" data-c="11">Е</td><td data-r="11" data-c="12">Р</td><td data-r="11" data-c="13">А</td></tr><tr><td data-r="12" data-c="0">Т</td><td data-r="12" data-c="1">Я</td><td data-r="12" data-c="2">П</td><td data-r="12" data-c="3">Л</td><td data-r="12" data-c="4">У</td><td data-r="12" data-c="5">Ц</td><td data-r="12" data-c="6">О</td><td data-r="12" data-c="7">Я</td><td data-r="12" data-c="8">Д</td><td data-r="12" data-c="9">С</td><td data-r="12" data-c="10">Н</td><td data-r="12" data-c="11">Є</td><td data-r="12" data-c="12">Щ</td><td data-r="12" data-c="13">Т</td></tr><tr><td data-r="13" data-c="0">Щ</td><td data-r="13" data-c="1">О</td><td data-r="13" data-c="2">К</td><td data-r="13" data-c="3">Р</td><td data-r="13" data-c="4">Е</td><td data-r="13" data-c="5">З</td><td data-r="13" data-c="6">О</td><td data-r="13" data-c="7">О</td><td data-r="13" data-c="8">Р</td><td data-r="13" data-c="9">Л</td><td data-r="13" data-c="10">Н</td><td data-r="13" data-c="11">Ц</td><td data-r="13" data-c="12">Ц</td><td data-r="13" data-c="13">О</td></tr></table>
+<p>Клацніть першу літеру і останню літеру слова</p>
+<table id="grid"><tr><td data-r="0" data-c="0">Ш</td><td data-r="0" data-c="1">Т</td><td data-r="0" data-c="2">У</td><td data-r="0" data-c="3">Г</td><td data-r="0" data-c="4">Г</td><td data-r="0" data-c="5">Х</td><td data-r="0" data-c="6">Ж</td><td data-r="0" data-c="7">Л</td><td data-r="0" data-c="8">З</td><td data-r="0" data-c="9">Р</td><td data-r="0" data-c="10">Ї</td><td data-r="0" data-c="11">Р</td><td data-r="0" data-c="12">Ш</td><td data-r="0" data-c="13">В</td></tr><tr><td data-r="1" data-c="0">Н</td><td data-r="1" data-c="1">Н</td><td data-r="1" data-c="2">Б</td><td data-r="1" data-c="3">Ф</td><td data-r="1" data-c="4">А</td><td data-r="1" data-c="5">Н</td><td data-r="1" data-c="6">Т</td><td data-r="1" data-c="7">Ш</td><td data-r="1" data-c="8">Б</td><td data-r="1" data-c="9">Ї</td><td data-r="1" data-c="10">Ф</td><td data-r="1" data-c="11">О</td><td data-r="1" data-c="12">Й</td><td data-r="1" data-c="13">В</td></tr><tr><td data-r="2" data-c="0">К</td><td data-r="2" data-c="1">Г</td><td data-r="2" data-c="2">Р</td><td data-r="2" data-c="3">А</td><td data-r="2" data-c="4">О</td><td data-r="2" data-c="5">Б</td><td data-r="2" data-c="6">І</td><td data-r="2" data-c="7">З</td><td data-r="2" data-c="8">Л</td><td data-r="2" data-c="9">М</td><td data-r="2" data-c="10">И</td><td data-r="2" data-c="11">Т</td><td data-r="2" data-c="12">В</td><td data-r="2" data-c="13">А</td></tr><tr><td data-r="3" data-c="0">Е</td><td data-r="3" data-c="1">І</td><td data-r="3" data-c="2">И</td><td data-r="3" data-c="3">А</td><td data-r="3" data-c="4">И</td><td data-r="3" data-c="5">Р</td><td data-r="3" data-c="6">А</td><td data-r="3" data-c="7">Ф</td><td data-r="3" data-c="8">Ю</td><td data-r="3" data-c="9">Л</td><td data-r="3" data-c="10">Ф</td><td data-r="3" data-c="11">К</td><td data-r="3" data-c="12">Щ</td><td data-r="3" data-c="13">П</td></tr><tr><td data-r="4" data-c="0">Т</td><td data-r="4" data-c="1">W</td><td data-r="4" data-c="2">Я</td><td data-r="4" data-c="3">Е</td><td data-r="4" data-c="4">С</td><td data-r="4" data-c="5">З</td><td data-r="4" data-c="6">М</td><td data-r="4" data-c="7">G</td><td data-r="4" data-c="8">Р</td><td data-r="4" data-c="9">К</td><td data-r="4" data-c="10">Н</td><td data-r="4" data-c="11">Е</td><td data-r="4" data-c="12">Х</td><td data-r="4" data-c="13">Ф</td></tr><tr><td data-r="5" data-c="0">Ї</td><td data-r="5" data-c="1">К</td><td data-r="5" data-c="2">E</td><td data-r="5" data-c="3">Г</td><td data-r="5" data-c="4">Щ</td><td data-r="5" data-c="5">Т</td><td data-r="5" data-c="6">I</td><td data-r="5" data-c="7">А</td><td data-r="5" data-c="8">О</td><td data-r="5" data-c="9">О</td><td data-r="5" data-c="10">Л</td><td data-r="5" data-c="11">В</td><td data-r="5" data-c="12">Ж</td><td data-r="5" data-c="13">Ч</td></tr><tr><td data-r="6" data-c="0">М</td><td data-r="6" data-c="1">Я</td><td data-r="6" data-c="2">Н</td><td data-r="6" data-c="3">B</td><td data-r="6" data-c="4">О</td><td data-r="6" data-c="5">F</td><td data-r="6" data-c="6">Р</td><td data-r="6" data-c="7">В</td><td data-r="6" data-c="8">Т</td><td data-r="6" data-c="9">Р</td><td data-r="6" data-c="10">М</td><td data-r="6" data-c="11">Ю</td><td data-r="6" data-c="12">К</td><td data-r="6" data-c="13">Н</td></tr><tr><td data-r="7" data-c="0">С</td><td data-r="7" data-c="1">Л</td><td data-r="7" data-c="2">Е</td><td data-r="7" data-c="3">Д</td><td data-r="7" data-c="4">P</td><td data-r="7" data-c="5">І</td><td data-r="7" data-c="6">У</td><td data-r="7" data-c="7">Х</td><td data-r="7" data-c="8">О</td><td data-r="7" data-c="9">Е</td><td data-r="7" data-c="10">У</td><td data-r="7" data-c="11">Я</td><td data-r="7" data-c="12">Ч</td><td data-r="7" data-c="13">Є</td></tr><tr><td data-r="8" data-c="0">В</td><td data-r="8" data-c="1">Х</td><td data-r="8" data-c="2">И</td><td data-r="8" data-c="3">М</td><td data-r="8" data-c="4">Г</td><td data-r="8" data-c="5">Ю</td><td data-r="8" data-c="6">Ц</td><td data-r="8" data-c="7">М</td><td data-r="8" data-c="8">Н</td><td data-r="8" data-c="9">З</td><td data-r="8" data-c="10">Г</td><td data-r="8" data-c="11">Ч</td><td data-r="8" data-c="12">І</td><td data-r="8" data-c="13">И</td></tr><tr><td data-r="9" data-c="0">Б</td><td data-r="9" data-c="1">А</td><td data-r="9" data-c="2">Н</td><td data-r="9" data-c="3">І</td><td data-r="9" data-c="4">М</td><td data-r="9" data-c="5">А</td><td data-r="9" data-c="6">Ц</td><td data-r="9" data-c="7">І</td><td data-r="9" data-c="8">Я</td><td data-r="9" data-c="9">У</td><td data-r="9" data-c="10">М</td><td data-r="9" data-c="11">Є</td><td data-r="9" data-c="12">Щ</td><td data-r="9" data-c="13">И</td></tr><tr><td data-r="10" data-c="0">Г</td><td data-r="10" data-c="1">Д</td><td data-r="10" data-c="2">Ю</td><td data-r="10" data-c="3">Х</td><td data-r="10" data-c="4">Х</td><td data-r="10" data-c="5">Ф</td><td data-r="10" data-c="6">О</td><td data-r="10" data-c="7">Й</td><td data-r="10" data-c="8">К</td><td data-r="10" data-c="9">А</td><td data-r="10" data-c="10">Н</td><td data-r="10" data-c="11">Ж</td><td data-r="10" data-c="12">Ц</td><td data-r="10" data-c="13">Х</td></tr><tr><td data-r="11" data-c="0">Ж</td><td data-r="11" data-c="1">Х</td><td data-r="11" data-c="2">Ч</td><td data-r="11" data-c="3">У</td><td data-r="11" data-c="4">Ф</td><td data-r="11" data-c="5">М</td><td data-r="11" data-c="6">Ц</td><td data-r="11" data-c="7">А</td><td data-r="11" data-c="8">У</td><td data-r="11" data-c="9">Р</td><td data-r="11" data-c="10">Г</td><td data-r="11" data-c="11">Д</td><td data-r="11" data-c="12">Б</td><td data-r="11" data-c="13">О</td></tr><tr><td data-r="12" data-c="0">О</td><td data-r="12" data-c="1">Р</td><td data-r="12" data-c="2">Б</td><td data-r="12" data-c="3">Й</td><td data-r="12" data-c="4">И</td><td data-r="12" data-c="5">Й</td><td data-r="12" data-c="6">Д</td><td data-r="12" data-c="7">Т</td><td data-r="12" data-c="8">Л</td><td data-r="12" data-c="9">Б</td><td data-r="12" data-c="10">Д</td><td data-r="12" data-c="11">Ю</td><td data-r="12" data-c="12">С</td><td data-r="12" data-c="13">Л</td></tr><tr><td data-r="13" data-c="0">С</td><td data-r="13" data-c="1">В</td><td data-r="13" data-c="2">М</td><td data-r="13" data-c="3">З</td><td data-r="13" data-c="4">Ф</td><td data-r="13" data-c="5">Р</td><td data-r="13" data-c="6">Т</td><td data-r="13" data-c="7">З</td><td data-r="13" data-c="8">Я</td><td data-r="13" data-c="9">И</td><td data-r="13" data-c="10">Я</td><td data-r="13" data-c="11">Р</td><td data-r="13" data-c="12">С</td><td data-r="13" data-c="13">О</td></tr></table>
 </div>
 
 <div>
 <h3>Слова</h3>
-<ul id="words"><li id="word-АНІМАЦІЯ">АНІМАЦІЯ</li><li id="word-КАДР">КАДР</li><li id="word-МОРФІНГ">МОРФІНГ</li><li id="word-GIF">GIF</li><li id="word-WEBP">WEBP</li><li id="word-ВЕКТОР">ВЕКТОР</li><li id="word-РАСТР">РАСТР</li><li id="word-КЛЮЧ">КЛЮЧ</li><li id="word-ФОРМАТ">ФОРМАТ</li><li id="word-БРАУЗЕР">БРАУЗЕР</li></ul>
+<ul id="words"><li id="w_АНІМАЦІЯ">АНІМАЦІЯ</li><li id="w_КАДР">КАДР</li><li id="w_МОРФІНГ">МОРФІНГ</li><li id="w_GIF">GIF</li><li id="w_WEBP">WEBP</li><li id="w_ВЕКТОР">ВЕКТОР</li><li id="w_РАСТР">РАСТР</li><li id="w_КЛЮЧ">КЛЮЧ</li><li id="w_ФОРМАТ">ФОРМАТ</li><li id="w_БРАУЗЕР">БРАУЗЕР</li></ul>
 </div>
 
 <script>
-const placements = {'АНІМАЦІЯ': [{'r': 8, 'c': 3}, {'r': 8, 'c': 4}, {'r': 8, 'c': 5}, {'r': 8, 'c': 6}, {'r': 8, 'c': 7}, {'r': 8, 'c': 8}, {'r': 8, 'c': 9}, {'r': 8, 'c': 10}], 'КАДР': [{'r': 10, 'c': 8}, {'r': 11, 'c': 8}, {'r': 12, 'c': 8}, {'r': 13, 'c': 8}], 'МОРФІНГ': [{'r': 0, 'c': 1}, {'r': 1, 'c': 1}, {'r': 2, 'c': 1}, {'r': 3, 'c': 1}, {'r': 4, 'c': 1}, {'r': 5, 'c': 1}, {'r': 6, 'c': 1}], 'GIF': [{'r': 4, 'c': 3}, {'r': 4, 'c': 4}, {'r': 4, 'c': 5}], 'WEBP': [{'r': 0, 'c': 7}, {'r': 1, 'c': 7}, {'r': 2, 'c': 7}, {'r': 3, 'c': 7}], 'ВЕКТОР': [{'r': 3, 'c': 8}, {'r': 3, 'c': 9}, {'r': 3, 'c': 10}, {'r': 3, 'c': 11}, {'r': 3, 'c': 12}, {'r': 3, 'c': 13}], 'РАСТР': [{'r': 5, 'c': 12}, {'r': 6, 'c': 12}, {'r': 7, 'c': 12}, {'r': 8, 'c': 12}, {'r': 9, 'c': 12}], 'КЛЮЧ': [{'r': 13, 'c': 2}, {'r': 12, 'c': 3}, {'r': 11, 'c': 4}, {'r': 10, 'c': 5}], 'ФОРМАТ': [{'r': 7, 'c': 13}, {'r': 8, 'c': 13}, {'r': 9, 'c': 13}, {'r': 10, 'c': 13}, {'r': 11, 'c': 13}, {'r': 12, 'c': 13}], 'БРАУЗЕР': [{'r': 11, 'c': 6}, {'r': 11, 'c': 7}, {'r': 11, 'c': 8}, {'r': 11, 'c': 9}, {'r': 11, 'c': 10}, {'r': 11, 'c': 11}, {'r': 11, 'c': 12}]};
 
-let selecting=false;
-let selected=[];
+let startCell = null;
 
-const cells=document.querySelectorAll("td");
+const cells = document.querySelectorAll("td");
 
-cells.forEach(cell=>{
-cell.addEventListener("mousedown",()=>{
-selecting=true;
-clearTemp();
-addCell(cell);
+cells.forEach(cell => {
+
+  cell.addEventListener("click", () => {
+
+    if (!startCell) {
+      startCell = cell;
+      cell.classList.add("start");
+      return;
+    }
+
+    const r1 = parseInt(startCell.dataset.r);
+    const c1 = parseInt(startCell.dataset.c);
+
+    const r2 = parseInt(cell.dataset.r);
+    const c2 = parseInt(cell.dataset.c);
+
+    const dr = Math.sign(r2 - r1);
+    const dc = Math.sign(c2 - c1);
+
+    let r = r1;
+    let c = c1;
+
+    const path = [];
+
+    while (true) {
+
+      path.push({r:r,c:c});
+
+      if (r === r2 && c === c2) break;
+
+      r += dr;
+      c += dc;
+
+      if (r < 0 || r >= 14 || c < 0 || c >= 14) break;
+
+    }
+
+    checkWord(path);
+
+    startCell.classList.remove("start");
+    startCell = null;
+
+  });
+
 });
 
-cell.addEventListener("mouseover",()=>{
-if(selecting) addCell(cell);
-});
-});
+function checkWord(path){
 
-document.addEventListener("mouseup",()=>{
-selecting=false;
-checkWord();
-});
+  const word = path.map(p => {
+    return document.querySelector(
+      `td[data-r='${p.r}'][data-c='${p.c}']`
+    ).textContent;
+  }).join("");
 
-function addCell(cell){
-if(!selected.includes(cell)){
-cell.classList.add("selected");
-selected.push(cell);
-}
-}
+  const reverse = word.split("").reverse().join("");
 
-function clearTemp(){
-selected.forEach(c=>c.classList.remove("selected"));
-selected=[];
-}
+  document.querySelectorAll("#words li").forEach(li => {
 
-function checkWord(){
-const coords=selected.map(c=>({
-r:parseInt(c.dataset.r),
-c:parseInt(c.dataset.c)
-}));
+    if(li.textContent === word || li.textContent === reverse){
 
-for(const word in placements){
-const path=placements[word];
+      li.classList.add("found");
 
-if(coords.length===path.length &&
-coords.every((p,i)=>p.r===path[i].r && p.c===path[i].c)){
-markFound(word,path);
-return;
+      path.forEach(p => {
+
+        document.querySelector(
+          `td[data-r='${p.r}'][data-c='${p.c}']`
+        ).classList.add("correct");
+
+      });
+
+    }
+
+  });
+
 }
 
-const rev=[...path].reverse();
-if(coords.length===rev.length &&
-coords.every((p,i)=>p.r===rev[i].r && p.c===rev[i].c)){
-markFound(word,path);
-return;
-}
-}
-}
-
-function markFound(word,path){
-path.forEach(p=>{
-document.querySelector(`td[data-r='${p.r}'][data-c='${p.c}']`).classList.remove("selected");
-document.querySelector(`td[data-r='${p.r}'][data-c='${p.c}']`).classList.add("correct");
-});
-
-document.getElementById("word-"+word).classList.add("found");
-selected=[];
-}
 </script>
 
 </body>
