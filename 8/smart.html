@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8"/>
+<title>СМАРТ-ТЕХНОЛОГІЇ</title>
+<style>
+body{font-family:Arial;background:#f4f6fb;margin:0;user-select:none}
+.header{background:white;padding:15px 20px}
+.header-top{display:flex;justify-content:space-between;align-items:center}
+.title{flex:1;text-align:center;font-size:26px;font-weight:bold;color:#2f5fb3}
+.timer{background:#eee;color:#333;padding:6px 12px;border-radius:8px;font-weight:bold}
+.container{display:flex;justify-content:center;gap:40px;margin-top:30px}
+table{border-collapse:collapse;background:white}
+td{width:34px;height:34px;text-align:center;border:1px solid #ccc;cursor:pointer;user-select:none}
+td.selected{background:#ffd0d0}
+td.correct{background:#90ee90}
+ul{list-style:none;padding:0}
+li{margin:6px 0;color:#333}
+li.found{color:green;font-weight:bold}
+.finish-box{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;pointer-events:none;}
+.finish-content{background:white;padding:30px 40px;border-radius:16px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.15);pointer-events:auto;}
+.hidden{display:none;}
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="header-top">
+<div></div>
+<div class="title">СМАРТ-ТЕХНОЛОГІЇ</div>
+<div class="timer" id="timer">00:00</div>
+</div>
+</div>
+
+<div class="container">
+<table id="grid"></table>
+<ul id="words"></ul>
+</div>
+
+<div class="finish-box hidden" id="finishBox">
+<div class="finish-content">
+<div class="result-title">РЕЗУЛЬТАТ</div>
+<div class="result-time" id="resultTime">00:00</div>
+<button onclick="location.reload()">ЩЕ РАЗ</button>
+</div>
+</div>
+
+<script>
+let selecting=false;
+let selected=[];
+let direction=null;
+let startTime=Date.now();
+let timerInterval;
+
+const WORD_BANK=[
+"СМАРТ","ПРИСТРІЙ","ДАТЧИК","СЕНСОР","АВТОМАТИЗАЦІЯ","КЕРУВАННЯ","ІНТЕРНЕТ","ДОДАТОК","СИСТЕМА","ГАДЖЕТ",
+"ТЕЛЕФОН","ГОДИННИК","КАМЕРА","РОЗЕТКА","ОСВІТЛЕННЯ","ТЕРМОСТАТ","МЕРЕЖА","ПІДКЛЮЧЕННЯ","КОНТРОЛЕР",
+"ДАНІ","СИГНАЛ","ПРОТОКОЛ","СЕРВЕР","КЛІЄНТ","ХМАРА","БЕЗПЕКА","АВТОМАТ","РОБОТ","АЛГОРИТМ"
+];
+
+function formatTime(sec){
+ const m=String(Math.floor(sec/60)).padStart(2,'0');
+ const s=String(sec%60).padStart(2,'0');
+ return m+":"+s;
+}
+
+function startTimer(){
+ timerInterval=setInterval(()=>{
+  const sec=Math.floor((Date.now()-startTime)/1000);
+  document.getElementById("timer").textContent=formatTime(sec);
+ },1000);
+}
+
+function pickWords(){
+ return WORD_BANK.sort(()=>Math.random()-0.5).slice(0,16);
+}
+
+function createGrid(size){
+ return Array.from({length:size},()=>Array(size).fill(""));
+}
+
+function placeWord(grid, word){
+ const size=grid.length;
+ const vertical=Math.random()<0.5;
+
+ for(let t=0;t<100;t++){
+  let r=Math.floor(Math.random()*size);
+  let c=Math.floor(Math.random()*size);
+
+  if(vertical){
+   if(r+word.length>size) continue;
+   let ok=true;
+   for(let i=0;i<word.length;i++){
+    if(grid[r+i][c]!=="" && grid[r+i][c]!==word[i]) ok=false;
+   }
+   if(!ok) continue;
+   for(let i=0;i<word.length;i++) grid[r+i][c]=word[i];
+   return;
+  } else {
+   if(c+word.length>size) continue;
+   let ok=true;
+   for(let i=0;i<word.length;i++){
+    if(grid[r][c+i]!=="" && grid[r][c+i]!==word[i]) ok=false;
+   }
+   if(!ok) continue;
+   for(let i=0;i<word.length;i++) grid[r][c+i]=word[i];
+   return;
+  }
+ }
+}
+
+function fillGrid(grid){
+ const letters="АБВГДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЮЯ";
+ for(let r=0;r<grid.length;r++){
+  for(let c=0;c<grid.length;c++){
+   if(grid[r][c]==="") grid[r][c]=letters[Math.floor(Math.random()*letters.length)];
+  }
+ }
+}
+
+function render(grid, words){
+ const table=document.getElementById("grid");
+ table.innerHTML="";
+ grid.forEach((row,r)=>{
+  const tr=document.createElement("tr");
+  row.forEach((cell,c)=>{
+   const td=document.createElement("td");
+   td.textContent=cell;
+   td.dataset.r=r;
+   td.dataset.c=c;
+   tr.appendChild(td);
+  });
+  table.appendChild(tr);
+ });
+
+ const list=document.getElementById("words");
+ list.innerHTML="";
+ words.forEach(w=>{
+  const li=document.createElement("li");
+  li.textContent=w;
+  list.appendChild(li);
+ });
+}
+
+function bindEvents(){
+ document.querySelectorAll("#grid td").forEach(cell=>{
+  cell.addEventListener("mousedown",(e)=>{
+   e.preventDefault();
+   selecting=true;
+   clearSelection();
+   direction=null;
+   addCell(cell);
+  });
+  cell.addEventListener("mouseover",()=>{
+   if(selecting) addCell(cell);
+  });
+ });
+}
+
+document.addEventListener("mouseup",()=>{
+ selecting=false;
+ checkWord();
+});
+
+function addCell(cell){
+ const r=+cell.dataset.r;
+ const c=+cell.dataset.c;
+
+ if(selected.length===0){
+  cell.classList.add("selected");
+  selected.push(cell);
+  return;
+ }
+
+ const last=selected[selected.length-1];
+ const dr=r-(+last.dataset.r);
+ const dc=c-(+last.dataset.c);
+
+ if(!((Math.abs(dr)===1 && dc===0)||(Math.abs(dc)===1 && dr===0))) return;
+
+ if(direction===null){
+  direction={dr:Math.sign(dr),dc:Math.sign(dc)};
+ }
+
+ if(Math.sign(dr)!==direction.dr||Math.sign(dc)!==direction.dc) return;
+
+ if(!selected.includes(cell)){
+  cell.classList.add("selected");
+  selected.push(cell);
+ }
+}
+
+function clearSelection(){
+ selected.forEach(c=>c.classList.remove("selected"));
+ selected=[];
+}
+
+function checkWord(){
+ const word=selected.map(c=>c.textContent).join("");
+ let found=false;
+
+ document.querySelectorAll("#words li").forEach(li=>{
+  if(!li.classList.contains("found")&&li.textContent===word){
+   li.classList.add("found");
+   found=true;
+   selected.forEach(c=>{
+    c.classList.remove("selected");
+    c.classList.add("correct");
+   });
+  }
+ });
+
+ if(!found){
+  selected.forEach(c=>c.classList.remove("selected"));
+ }
+
+ selected=[];
+ checkGameComplete();
+}
+
+function checkGameComplete(){
+ const all=document.querySelectorAll("#words li").length;
+ const found=document.querySelectorAll("#words li.found").length;
+ if(all===found){
+  clearInterval(timerInterval);
+  const sec=Math.floor((Date.now()-startTime)/1000);
+  document.getElementById("resultTime").textContent=formatTime(sec);
+  document.getElementById("finishBox").classList.remove("hidden");
+ }
+}
+
+function init(){
+ const words=pickWords();
+ const grid=createGrid(16);
+ words.forEach(w=>placeWord(grid,w));
+ fillGrid(grid);
+ render(grid,words);
+ bindEvents();
+ startTimer();
+}
+
+init();
+</script>
+
+</body>
+</html>
